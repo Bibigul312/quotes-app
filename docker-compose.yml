@@ -1,0 +1,40 @@
+version: '3'
+services:
+  back:
+    image: bibigul2025/quotes-back:v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - data
+    networks:
+      - myapp
+
+  front:
+    image: bibigul2025/quotes-front:v1
+    ports:
+      - "3001:3001"
+    depends_on:
+      - back
+    networks:
+      - myapp
+
+  data:
+    image: bibigul2025/quotes-data:v1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydatabase
+    ports:
+      - "3306:3306"
+    networks:
+      - myapp
+
+  data-script:
+    image: bibigul2025/quotes-data-script:v1
+    depends_on:
+      - data
+    networks:
+      - myapp
+
+networks:
+  myapp:
+
